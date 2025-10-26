@@ -1,45 +1,52 @@
-# Tipnix - Advanced Tooltip Library for React & Next.js
+# Tipnix Tooltip
 
-A lightweight, customizable tooltip library for React and Next.js applications. Tipnix provides smooth animations, intelligent positioning, RTL support, and extensive customization options with minimal setup.
+**Tipnix Tooltip** is a lightweight, fast, and fully customizable tooltip library for React and Next.js applications. Add beautiful, interactive tooltips to your project with minimal setup and maximum flexibility.
 
-## Features
+🔗 **Documentation**: [Tipnix Documentation](https://tipnix-documentation.vercel.app/)  
+🐙 **GitHub**: [Dimuthu-Pinsara/tipnix-tooltip-js](https://github.com/Dimuthu-Pinsara/tipnix-tooltip-js)
 
-- **Easy Integration** - Simple hook-based API for React and Next.js
-- **Highly Customizable** - Control colors, fonts, sizes, padding, and animations
-- **Smart Positioning** - Automatically adjusts tooltip position based on viewport
-- **RTL Support** - Full support for right-to-left languages
-- **Multiple Animations** - 10+ built-in animations (shake, bounce, zoom, pulse, and more)
-- **Dynamic Elements** - Automatically detects and initializes tooltips added to the DOM
-- **Lightweight** - Minimal bundle size with no external dependencies
-- **Per-Tooltip Customization** - Override global settings on individual tooltips
-- **Responsive** - Adapts to different screen sizes automatically
+---
 
-## Installation
+## ✨ Features
 
-Install Tipnix via npm:
+- 🎯 **Easy Integration** - Works seamlessly with React and Next.js
+- 🎨 **Fully Customizable** - Control colors, fonts, sizes, animations, and more
+- ⚡ **Lightweight** - No external dependencies, minimal bundle size
+- 🏃 **Fast Performance** - Optimized for speed and responsiveness
+- 🎞️ **Rich Animations** - Multiple animation styles (bounce, fade, slide, zoom, etc.)
+- 📱 **Responsive** - Works perfectly on all screen sizes
+- 🌍 **RTL Support** - Built-in support for right-to-left languages
 
-\`\`\`bash
+---
+
+## 📦 Installation
+
+Install Tipnix Tooltip via npm:
+
+```bash
 npm install tipnix
-\`\`\`
+```
 
 Or with yarn:
 
-\`\`\`bash
+```bash
 yarn add tipnix
-\`\`\`
+```
 
 Or with pnpm:
 
-\`\`\`bash
+```bash
 pnpm add tipnix
-\`\`\`
+```
 
-## Quick Start
+---
+
+## 🚀 Quick Start
 
 ### React
 
-\`\`\`jsx
-import { useTooltip } from "tipnix";
+```jsx
+import { useTooltip } from 'tipnix';
 
 export default function App() {
   useTooltip({
@@ -54,16 +61,16 @@ export default function App() {
     </div>
   );
 }
-\`\`\`
+```
 
 ### Next.js (App Router)
 
-\`\`\`jsx
-"use client";
+```jsx
+'use client';
 
-import { useTooltip } from "tipnix";
+import { useTooltip } from 'tipnix';
 
-export default function Page() {
+export default function TooltipComponent() {
   useTooltip({
     textColor: "#ffffff",
     backgroundColor: "#333333",
@@ -71,280 +78,248 @@ export default function Page() {
   });
 
   return (
-    <div className="tipnix" tipnix-text="This is a tooltip example">
-      Hover over me
+    <div 
+      className="tipnix w-max text-sm p-2 tooltip-bg bg-[#18181b]" 
+      tipnix-bg="#333333" 
+      tipnix-text-color="#FF0000" 
+      tipnix-text="This is a tooltip example" 
+      tipnix-font-size="12px"
+    >
+      This is a tooltip example
     </div>
   );
 }
-\`\`\`
+```
 
-### Using TooltipProvider
+---
 
-For a cleaner approach, use the `TooltipProvider` component:
+## 🛠️ Configuration Options
 
-\`\`\`jsx
-"use client";
+Initialize Tipnix with these options:
 
-import { TooltipProvider } from "tipnix";
+```javascript
+useTooltip({
+  backgroundColor: '#000000',    // Tooltip background color (HEX/RGB)
+  textColor: '#FFFFFF',          // Tooltip text color (HEX/RGB)
+  fontSize: '14px',              // Font size (px, em, rem)
+  width: '200px',                // Tooltip width
+  padding: '10px',               // Inner padding
+  animation: 'fade',             // Animation style
+  parentWrapElement: '.parent',  // Parent element selector
+});
+```
 
-export default function Layout({ children }) {
-  return (
-    <>
-      <TooltipProvider
-        options={{
-          textColor: "#ffffff",
-          backgroundColor: "#333333",
-          fontSize: "16px",
-        }}
-      />
-      {children}
-    </>
-  );
-}
-\`\`\`
+---
 
-## Usage
+## 📋 Available Attributes
+
+Use these `tipnix-*` attributes on your HTML elements to customize individual tooltips:
+
+| Attribute | Description | Example |
+|-----------|-------------|---------|
+| `tipnix-text` | Tooltip content text | `tipnix-text="Help text"` |
+| `tipnix-bg` | Background color | `tipnix-bg="#333333"` |
+| `tipnix-text-color` | Text color | `tipnix-text-color="#FFFFFF"` |
+| `tipnix-font-size` | Font size | `tipnix-font-size="14px"` |
+| `tipnix-width` | Tooltip width | `tipnix-width="250px"` |
+| `tipnix-padding` | Inner padding | `tipnix-padding="12px"` |
+| `tipnix-animation` | Animation style | `tipnix-animation="bounce"` |
+| `tipnix-parent` | Parent element selector | `tipnix-parent=".container"` |
+
+---
+
+## 🎞️ Available Animations
+
+Tipnix supports multiple animation styles:
+
+- `fade` - Smooth fade in/out
+- `bounce` - Bouncy entrance
+- `slide` - Slide animation
+- `slideUp` - Slide up animation
+- `slideInLeft` - Slide in from left
+- `zoom` - Zoom in/out
+- `pulse` - Pulsing effect
+- `flipIn` - Flip entrance
+- `swing` - Swinging motion
+- `fadeInScale` - Fade with scale
+- `tiltFadeIn` - Tilt and fade
+- `shake` - Shaking effect
+
+---
+
+## 💡 Usage Examples
 
 ### Basic Tooltip
 
-Add the `tipnix` class to any element and set the `tipnix-text` attribute:
+```jsx
+import { useTooltip } from 'tipnix';
 
-\`\`\`jsx
-<div className="tipnix" tipnix-text="Tooltip text here">
-  Hover me
-</div>
-\`\`\`
-
-### With Custom Styling
-
-\`\`\`jsx
-<div
-  className="tipnix"
-  tipnix-text="Custom styled tooltip"
-  tipnix-bg="#FF6B6B"
-  tipnix-text-color="#FFFFFF"
-  tipnix-font-size="14px"
-  tipnix-padding="12px"
-  tipnix-width="200px"
->
-  Styled Tooltip
-</div>
-\`\`\`
-
-### With Animation
-
-\`\`\`jsx
-<div
-  className="tipnix"
-  tipnix-text="Animated tooltip"
-  tipnix-animation="bounce"
->
-  Animated Tooltip
-</div>
-\`\`\`
-
-## API Reference
-
-### useTooltip Hook
-
-Initialize tooltips with global configuration:
-
-\`\`\`jsx
-useTooltip(options);
-\`\`\`
-
-**Parameters:**
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `textColor` | string | `"#ffffff"` | Tooltip text color |
-| `backgroundColor` | string | `"#333333"` | Tooltip background color |
-| `fontSize` | string | `"16px"` | Tooltip font size |
-| `animation` | string | `"shake"` | Default animation name |
-| `width` | string | `"225px"` | Tooltip width |
-| `padding` | string | `"16px"` | Tooltip padding |
-| `parentWrapElement` | string | - | CSS selector for parent element |
-
-**Returns:**
-
-\`\`\`jsx
-{
-  reinitialize: () => void,  // Manually reinitialize tooltips
-  isInitialized: boolean     // Check if tooltips are initialized
-}
-\`\`\`
-
-### TooltipProvider Component
-
-Wrap your app with the provider for automatic initialization:
-
-\`\`\`jsx
-<TooltipProvider options={TooltipOptions} />
-\`\`\`
-
-### HTML Attributes
-
-Customize individual tooltips using data attributes:
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `tipnix-text` | string | Tooltip content text |
-| `tipnix-bg` | string | Background color override |
-| `tipnix-text-color` | string | Text color override |
-| `tipnix-font-size` | string | Font size override |
-| `tipnix-width` | string | Width override |
-| `tipnix-padding` | string | Padding override |
-| `tipnix-animation` | string | Animation override |
-| `tipnix-parent` | string | Parent element selector |
-
-## Animations
-
-Tipnix includes 10 built-in animations. Use any of these with the `tipnix-animation` attribute or `animation` option:
-
-- **shake** - Shakes side to side (default)
-- **bounce** - Bounces up and down
-- **fadeSlideUp** - Fades in while sliding up
-- **zoom** - Zooms in and out
-- **pulse** - Pulses with scale effect
-- **flipIn** - Flips in on X axis
-- **slideInLeft** - Slides in from the left
-- **swing** - Swings back and forth
-- **fadeInScale** - Fades in with scale
-- **tiltFadeIn** - Tilts and fades in
-
-### Custom Animation
-
-Define your own animation in CSS and pass the animation name:
-
-\`\`\`jsx
-<style>
-  @keyframes myCustomAnimation {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-</style>
-
-<div
-  className="tipnix"
-  tipnix-text="Custom animation"
-  tipnix-animation="myCustomAnimation"
->
-  Custom Animation
-</div>
-\`\`\`
-
-## Examples
-
-### Complete React Example
-
-\`\`\`jsx
-"use client";
-
-import { useTooltip } from "tipnix";
-
-export default function Dashboard() {
+export default function BasicTooltip() {
   useTooltip({
-    textColor: "#ffffff",
-    backgroundColor: "#1f2937",
-    fontSize: "14px",
-    animation: "fadeSlideUp",
+    backgroundColor: '#000000',
+    textColor: '#FFFFFF',
   });
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+    <button className="tipnix" tipnix-text="Click me!">
+      Hover for tooltip
+    </button>
+  );
+}
+```
 
-      <div className="flex gap-4">
-        <button
-          className="tipnix px-4 py-2 bg-blue-500 text-white rounded"
-          tipnix-text="Click to save your changes"
-        >
-          Save
-        </button>
+### Custom Styled Tooltip
 
-        <button
-          className="tipnix px-4 py-2 bg-red-500 text-white rounded"
-          tipnix-text="Delete this item permanently"
-          tipnix-animation="pulse"
-        >
-          Delete
-        </button>
+```jsx
+import { useTooltip } from 'tipnix';
 
-        <button
-          className="tipnix px-4 py-2 bg-green-500 text-white rounded"
-          tipnix-text="Export data as CSV"
-          tipnix-bg="#10b981"
-        >
-          Export
-        </button>
-      </div>
+export default function CustomTooltip() {
+  useTooltip({
+    backgroundColor: '#FF6B6B',
+    textColor: '#FFFFFF',
+    fontSize: '14px',
+    padding: '12px',
+    animation: 'bounce',
+  });
+
+  return (
+    <div 
+      className="tipnix" 
+      tipnix-text="Custom styled tooltip"
+      tipnix-animation="bounce"
+    >
+      Hover me
     </div>
   );
 }
-\`\`\`
+```
 
-### Next.js with Layout
+### Multiple Tooltips with Different Styles
 
-\`\`\`jsx
-// app/layout.tsx
-"use client";
+```jsx
+import { useTooltip } from 'tipnix';
 
-import { TooltipProvider } from "tipnix";
-import "./globals.css";
+export default function MultipleTooltips() {
+  useTooltip({
+    backgroundColor: '#333333',
+    textColor: '#FFFFFF',
+  });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
   return (
-    <html lang="en">
-      <body>
-        <TooltipProvider
-          options={{
-            textColor: "#ffffff",
-            backgroundColor: "#333333",
-            fontSize: "16px",
-          }}
-        />
-        {children}
-      </body>
-    </html>
+    <div>
+      <button 
+        className="tipnix" 
+        tipnix-text="Save your work"
+        tipnix-bg="#4CAF50"
+      >
+        Save
+      </button>
+      
+      <button 
+        className="tipnix" 
+        tipnix-text="Delete this item"
+        tipnix-bg="#F44336"
+      >
+        Delete
+      </button>
+      
+      <button 
+        className="tipnix" 
+        tipnix-text="Edit settings"
+        tipnix-bg="#2196F3"
+      >
+        Settings
+      </button>
+    </div>
   );
 }
-\`\`\`
+```
 
-\`\`\`jsx
-// app/page.tsx
-export default function Home() {
+### With Tailwind CSS
+
+```jsx
+import { useTooltip } from 'tipnix';
+
+export default function TailwindTooltip() {
+  useTooltip({
+    backgroundColor: '#1F2937',
+    textColor: '#F3F4F6',
+    fontSize: '13px',
+  });
+
   return (
-    <main className="p-8">
-      <h1 className="text-3xl font-bold mb-4">Welcome</h1>
-
-      <div
-        className="tipnix inline-block px-4 py-2 bg-blue-600 text-white rounded cursor-pointer"
-        tipnix-text="This is a tooltip"
+    <div className="flex gap-4 p-4">
+      <button 
+        className="tipnix px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        tipnix-text="This is a helpful tooltip"
       >
         Hover me
-      </div>
-    </main>
+      </button>
+    </div>
   );
 }
-\`\`\`
+```
 
-## RTL Support
+---
 
-Tipnix automatically detects RTL languages from the HTML `dir` attribute:
+## 🔧 Advanced Usage
 
-\`\`\`jsx
-<html dir="rtl">
-  <body>
-    {/* Tooltips will automatically adjust for RTL */}
-  </body>
-</html>
-\`\`\`
+### Dynamic Tooltip Content
 
-## Browser Support
+```jsx
+import { useTooltip } from 'tipnix';
+import { useState } from 'react';
+
+export default function DynamicTooltip() {
+  const [tooltipText, setTooltipText] = useState('Initial text');
+
+  useTooltip({
+    backgroundColor: '#333333',
+    textColor: '#FFFFFF',
+  });
+
+  return (
+    <div>
+      <button 
+        className="tipnix" 
+        tipnix-text={tooltipText}
+        onClick={() => setTooltipText('Updated text!')}
+      >
+        Click to update tooltip
+      </button>
+    </div>
+  );
+}
+```
+
+### Conditional Tooltips
+
+```jsx
+import { useTooltip } from 'tipnix';
+
+export default function ConditionalTooltip({ isDisabled }) {
+  useTooltip({
+    backgroundColor: '#333333',
+    textColor: '#FFFFFF',
+  });
+
+  return (
+    <button 
+      className="tipnix" 
+      tipnix-text={isDisabled ? "This feature is disabled" : "Click to proceed"}
+      disabled={isDisabled}
+    >
+      Action Button
+    </button>
+  );
+}
+```
+
+---
+
+## 📱 Browser Support
+
+Tipnix Tooltip works on all modern browsers:
 
 - Chrome (latest)
 - Firefox (latest)
@@ -352,45 +327,110 @@ Tipnix automatically detects RTL languages from the HTML `dir` attribute:
 - Edge (latest)
 - Mobile browsers (iOS Safari, Chrome Mobile)
 
-## Performance Tips
+---
 
-1. **Use TooltipProvider** - More efficient than calling `useTooltip` in multiple components
-2. **Batch Initialization** - Initialize all tooltips at once rather than in separate components
-3. **Limit Animations** - Complex animations may impact performance on low-end devices
-4. **Debounce Dynamic Content** - If adding many tooltips dynamically, consider debouncing
+## 🐛 Troubleshooting
 
-## Troubleshooting
+### Tooltip not appearing?
 
-### Tooltips not appearing
+1. Ensure you've called `useTooltip()` in your component
+2. Add the `tipnix` class to your element
+3. Include the `tipnix-text` attribute with your tooltip content
 
-- Ensure the element has the `tipnix` class
-- Check that `tipnix-text` attribute is set
-- Verify `useTooltip()` or `TooltipProvider` is initialized
+### Styling not applying?
 
-### Positioning issues
+1. Check that your configuration options are valid CSS values
+2. Verify that `tipnix-*` attributes are spelled correctly
+3. Ensure the component is wrapped with `useTooltip()` initialization
 
-- Check if parent element has `position: relative`
-- Verify viewport has enough space for tooltip
-- Use `tipnix-parent` attribute to specify parent container
+### Performance issues?
 
-### Animations not working
-
-- Ensure animation name is correct
-- Check browser console for errors
-- Verify CSS animations are not disabled globally
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-MIT License - feel free to use this in your projects!
-
-## Support
-
-For issues, questions, or feature requests, please open an issue on GitHub.
+1. Avoid creating too many tooltips on a single page
+2. Use CSS classes for styling instead of inline styles when possible
+3. Consider lazy-loading components with tooltips
 
 ---
 
-Made with care for the React and Next.js community.
+## 📚 API Reference
+
+### `useTooltip(options)`
+
+Initializes Tipnix Tooltip with the provided configuration.
+
+**Parameters:**
+- `options` (Object) - Configuration object with the following properties:
+  - `backgroundColor` (string) - HEX or RGB color code
+  - `textColor` (string) - HEX or RGB color code
+  - `fontSize` (string) - CSS font size value
+  - `width` (string) - CSS width value
+  - `padding` (string) - CSS padding value
+  - `animation` (string) - Animation style name
+  - `parentWrapElement` (string) - CSS selector for parent element
+
+**Example:**
+```javascript
+useTooltip({
+  backgroundColor: '#000000',
+  textColor: '#FFFFFF',
+  fontSize: '14px',
+});
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please feel free to submit issues and pull requests on [GitHub](https://github.com/Dimuthu-Pinsara/tipnix-tooltip-js).
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+## 👨‍💻 Author
+
+Created and maintained by **Dimuthu Pinsara**
+
+- GitHub: [@Dimuthu-Pinsara](https://github.com/Dimuthu-Pinsara)
+- Follow for updates and new releases!
+
+---
+
+## 🙏 Support
+
+If you find Tipnix Tooltip helpful, please consider:
+
+- ⭐ Starring the [GitHub repository](https://github.com/Dimuthu-Pinsara/tipnix-tooltip-js)
+- 📢 Sharing it with your network
+- 🐛 Reporting bugs and suggesting features
+- 💬 Providing feedback and improvements
+
+---
+
+## 📝 Changelog
+
+### v1.0.0 (Current)
+- Initial npm release
+- React and Next.js support
+- Full customization options
+- Multiple animation styles
+- RTL language support
+
+### Upcoming Features
+- 🎞️ More animation options
+- ⏳ Delay and timing controls
+- 📍 Smart positioning algorithms
+- 🎯 Keyboard accessibility improvements
+
+---
+
+## 📞 Support & Feedback
+
+For issues, questions, or feature requests, please visit:
+- [GitHub Issues](https://github.com/Dimuthu-Pinsara/tipnix-tooltip-js/issues)
+- [Documentation](https://tipnix-documentation.vercel.app/)
+
+Happy tooltipping! 🎉
