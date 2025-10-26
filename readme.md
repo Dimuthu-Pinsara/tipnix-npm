@@ -3,7 +3,7 @@
 **Tipnix Tooltip** is a lightweight, fast, and fully customizable tooltip library for React and Next.js applications. Add beautiful, interactive tooltips to your project with minimal setup and maximum flexibility.
 
 🔗 **Documentation**: [Tipnix Documentation](https://tipnix-documentation.vercel.app/)  
-🐙 **GitHub**: [Dimuthu-Pinsara/tipnix-tooltip-js](https://github.com/Dimuthu-Pinsara/tipnix-tooltip-js)
+🐙 **GitHub**: [Dimuthu-Pinsara/tipnix-tooltip-js](https://github.com/Dimuthu-Pinsara/tipnix-npm)
 
 ---
 
