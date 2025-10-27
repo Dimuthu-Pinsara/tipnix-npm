@@ -386,6 +386,7 @@ export function useTooltip(options = {}) {
     }, []);
     useEffect(() => {
         // Add base styles
+        const { backgroundColor = "#333333" } = options;
         const cleanup = addTooltipStyles(backgroundColor);
         // Initialize tooltips with a slight delay to ensure DOM is ready
         const timer = setTimeout(() => {
