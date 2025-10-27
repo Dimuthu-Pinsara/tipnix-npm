@@ -204,7 +204,7 @@ export function useTooltip(options = {}) {
       text-transform: capitalize;
       font-weight: 400;
       font-size: 16px;
-      box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+      box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
     }
     
     .tooltip::before {
@@ -233,7 +233,7 @@ export function useTooltip(options = {}) {
     }
     
     .tipnix:hover {
-      box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+      box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
       color: white;
       border-color: transparent;
     }
