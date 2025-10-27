@@ -167,7 +167,7 @@ export function useTooltip(options = {}) {
         }
         return randomWord;
     }
-    const addTooltipStyles = useCallback(() => {
+    const addTooltipStyles = useCallback((backgroundColor) => {
         if (typeof document === "undefined")
             return;
         const styleElement = document.createElement("style");
@@ -386,7 +386,7 @@ export function useTooltip(options = {}) {
     }, []);
     useEffect(() => {
         // Add base styles
-        const cleanup = addTooltipStyles();
+        const cleanup = addTooltipStyles(backgroundColor);
         // Initialize tooltips with a slight delay to ensure DOM is ready
         const timer = setTimeout(() => {
             initTipNixTooltip(options);
