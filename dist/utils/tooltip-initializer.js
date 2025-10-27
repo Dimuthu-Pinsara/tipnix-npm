@@ -217,6 +217,7 @@ export function useTooltip(options = {}) {
       left: var(--tooltip-before-left, 0);
       right: var(--tooltip-before-right, unset);
       transform: translate(-50%) rotate(45deg);
+      background: ${backgroundColor} !important;
       padding: unset !important;
       white-space: unset;
       border-radius: unset;
