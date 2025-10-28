@@ -95,13 +95,19 @@ export function useTooltip(options = {}) {
       if (customParent) {
         parentElement = document.querySelector(customParent);
         wrapperPosition = isRtl
-          ? ((parentElement?.getBoundingClientRect().right || 0) - wrapper.getBoundingClientRect().right)
-          : (wrapper.getBoundingClientRect().left - (parentElement?.getBoundingClientRect().left || 0));
+          ? ((parentElement?.getBoundingClientRect().right) - wrapper.getBoundingClientRect().right)
+            : (wrapper.getBoundingClientRect().left - (parentElement?.getBoundingClientRect().left));
+            console.log("wrappserPosition custom parent:", wrapperPosition);
+            console.log("right wrapper pos :", wrapper.getBoundingClientRect().right);
+            console.log("left wrapper pos :", wrapper.getBoundingClientRect().left);
       } else if (parentWrapElement) {
         parentElement = document.querySelector(parentWrapElement);
         wrapperPosition = isRtl
-          ? ((parentElement?.getBoundingClientRect().right || 0) - wrapper.getBoundingClientRect().right)
-          : (wrapper.getBoundingClientRect().left - (parentElement?.getBoundingClientRect().left || 0));
+          ? ((parentElement?.getBoundingClientRect().right) - wrapper.getBoundingClientRect().right)
+            : (wrapper.getBoundingClientRect().left - (parentElement?.getBoundingClientRect().left ));
+            console.log("wrappserPosition parent:", wrapperPosition);
+            console.log("right wrapper pos :", wrapper.getBoundingClientRect().right);
+            console.log("left wrapper pos :", wrapper.getBoundingClientRect().left);
       } else {
           wrapperPosition = isRtl ? wrapper.getBoundingClientRect().right : wrapper.getBoundingClientRect().left;
           console.log("wrappserPosition :", wrapperPosition);
