@@ -117,10 +117,10 @@ export function useTooltip(options = {}) {
             isRtl ? tooltipTextElement.style.right = -wrapperPosition + 'px' : tooltipTextElement.style.left = -wrapperPosition + 'px';
             tooltipTextElement.style.transform = "translateX(-0%)";
             if (isRtl) {
-                tooltipTextElement.style.setProperty('--tooltip-before-right', `${(wrapperPosition + wrapperWidth) - 10}px`);
+                tooltipTextElement.style.setProperty('--tooltip-before-right', `${(wrapperPosition + wrapperHalf) - 10}px`);
                 tooltipTextElement.style.setProperty('--tooltip-before-left', `unset`);
             } else {
-                tooltipTextElement.style.setProperty('--tooltip-before-left', `${(wrapperPosition + wrapperWidth) - 2}px`);
+                tooltipTextElement.style.setProperty('--tooltip-before-left', `${(wrapperPosition + wrapperHalf) - 2}px`);
                 tooltipTextElement.style.setProperty('--tooltip-before-right', `unset`);
             }
         } else {
