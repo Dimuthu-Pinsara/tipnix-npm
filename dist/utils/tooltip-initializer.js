@@ -132,11 +132,9 @@ export function useTooltip(options = {}) {
         }
       } else {
         // Let base CSS center it (LTR/RTL handled by CSS)
-        tooltipTextElement.style.left = "";
-        tooltipTextElement.style.right = "";
-        tooltipTextElement.style.transform = "";
-        tooltipTextElement.style.setProperty("--tooltip-before-left", `50%`);
-        tooltipTextElement.style.setProperty("--tooltip-before-right", `unset`);
+        tooltipTextElement.style.left = 'unset';
+        tooltipTextElement.style.transform = "unset";
+        tooltipTextElement.style.setProperty('--tooltip-before-left', `50%`);
       }
         });
         // Add event listeners
