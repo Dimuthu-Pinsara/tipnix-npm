@@ -28,13 +28,11 @@ export function useTooltip(options = {}) {
         place-items: center;
       }
 
-      /* LTR centered default */
       .tipnix-tooltip {
         position: absolute;
         width: 225px;
         top: 0;
         left: 50%;
-        transform: translateX(-50%);
         padding: 10px;
         opacity: 0;
         pointer-events: none;
@@ -42,8 +40,7 @@ export function useTooltip(options = {}) {
         background: var(--background);
         z-index: 100;
         border-radius: 8px;
-        text-transform: capitalize;
-        font-weight: 400;
+        font-weight: 500;
         font-size: 16px;
         box-shadow: 0 10px 10px rgba(0,0,0,0.1);
       }
@@ -133,121 +130,110 @@ export function useTooltip(options = {}) {
     // Reset style tag to avoid duplicates (same id as your pure JS)
     document.getElementById("tipnix-style")?.remove();
 
-    const tooltipWrapper = document.querySelectorAll(".tipnix");
-    const tipnixStyleElement = document.createElement("style");
-    const windowWidth = window.innerWidth;
-    const direction = document.querySelector("html")?.getAttribute("dir");
-    const isRtl = direction === "rtl";
-
-    tipnixStyleElement.setAttribute("id", "tipnix-style");
+    let tooltipWrapper = document.querySelectorAll(".tipnix");
+    let tipnixStyleElement = document.createElement('style');
+    let windowWidth = window.innerWidth;
+    let direction = document.querySelector("html").getAttribute("dir");
+    let isRtl = direction === "rtl" ? true : false;
+    tipnixStyleElement.setAttribute('id', 'tipnix-style');
     document.head.appendChild(tipnixStyleElement);
 
     if (!tooltipWrapper || tooltipWrapper.length === 0) {
-      console.error("Undefined Element");
-      return;
+        console.error("Undefined Element");
+        return;
     }
 
-    tooltipWrapper.forEach((wrapper) => {
-      // Skip if already initialized
-      if (wrapper.querySelector(".tipnix-tooltip")) return;
+    tooltipWrapper.forEach(wrapper => {
 
-      const customBackgroundColor = wrapper.getAttribute("tipnix-bg");
-      const customTextColor = wrapper.getAttribute("tipnix-text-color");
-      const customFontSize = wrapper.getAttribute("tipnix-font-size");
-      const customWidth = wrapper.getAttribute("tipnix-width");
-      const customPadding = wrapper.getAttribute("tipnix-padding");
-      const customParent = wrapper.getAttribute("tipnix-parent");
-      const customAnimation = wrapper.getAttribute("tipnix-animation");
+        const customBackgroundColor = wrapper.getAttribute("tipnix-bg");
+        const customTextColor = wrapper.getAttribute("tipnix-text-color");
+        const customFontSize = wrapper.getAttribute("tipnix-font-size");
+        const customWidth = wrapper.getAttribute("tipnix-width");
+        const customPadding = wrapper.getAttribute("tipnix-padding");
+        const customParent = wrapper.getAttribute("tipnix-parent");
+        const customAnimation = wrapper.getAttribute("tipnix-animation");
+        let tooltipTextElement = document.createElement("span");
+        let tooltipTextContent = wrapper.getAttribute("tipnix-text");
+        let tooltipWidth = customWidth ? parseInt(customWidth) : (width ? parseInt(width) : 225);
+        backgroundColor = backgroundColor ?? '#333333';
+        textColor = textColor ?? '#ffffff';
+        tooltipTextElement.classList.add("tipnix-tooltip");
+        tooltipTextElement.style.color = customTextColor ? customTextColor : textColor;
+        tooltipTextElement.style.backgroundColor = customBackgroundColor ? customBackgroundColor : backgroundColor;
+        tooltipTextElement.style.fontSize = customFontSize ? customFontSize : (fontSize || '16px');
+        tooltipTextElement.style.width = tooltipWidth > windowWidth
+            ? `${windowWidth - 50}px`
+            : (customWidth ? customWidth : (width ? width : '225px'));
+        tooltipTextElement.style.padding = customPadding ? customPadding : (padding ? padding : '16px');
 
-      const tooltipTextElement = document.createElement("span");
-      const tooltipTextContent = wrapper.getAttribute("tipnix-text") || "";
+        if (customAnimation) {
+            let randomAnimationCssClassName = generateRandomWord(4);
+            tooltipTextElement.classList.add(randomAnimationCssClassName);
 
-      const tooltipWidth =
-        customWidth ? parseInt(customWidth, 10) : (width ? parseInt(width, 10) : 225);
+            tipnixStyleElement.innerHTML += `
+                .tipnix:hover .tipnix-tooltip.${randomAnimationCssClassName} {
+                    animation: ${customAnimation} 0.5s ease-in-out both;
+                }
+            `;
+        } else if (animation) {
+            tipnixStyleElement.innerHTML += `
+                .tipnix:hover .tipnix-tooltip {
+                    animation: ${animation} 0.5s ease-in-out both;
+                }
+            `;
+        } else {
+            tipnixStyleElement.innerHTML += `
+                .tipnix:hover .tipnix-tooltip {
+                    animation: shake 0.5s ease-in-out both;
+                }
+            `;
+        }
 
-      tooltipTextElement.classList.add("tipnix-tooltip");
+        tooltipTextElement.textContent = tooltipTextContent;
 
-      tooltipTextElement.style.color = customTextColor || textColor;
-      tooltipTextElement.style.backgroundColor = customBackgroundColor || backgroundColor;
-      tooltipTextElement.style.fontSize = customFontSize || fontSize;
-      tooltipTextElement.style.width =
-        tooltipWidth > windowWidth
-          ? `${windowWidth - 50}px`
-          : (customWidth || width || "225px");
-      tooltipTextElement.style.padding = customPadding || padding;
+        if (customBackgroundColor) {
+            let randomCssClassName = generateRandomWord(4);
 
-      // Animations (same as pure JS approach but class is tipnix-tooltip)
-      if (customAnimation) {
-        const rand = generateRandomWord(4);
-        tooltipTextElement.classList.add(rand);
-        tipnixStyleElement.innerHTML += `
-          .tipnix:hover .tipnix-tooltip.${rand} {
-            animation: ${customAnimation} 0.5s ease-in-out both;
-          }
-        `;
-      } else if (animation) {
-        tipnixStyleElement.innerHTML += `
-          .tipnix:hover .tipnix-tooltip {
-            animation: ${animation} 0.5s ease-in-out both;
-          }
-        `;
-      } else {
-        tipnixStyleElement.innerHTML += `
-          .tipnix:hover .tipnix-tooltip {
-            animation: shake 0.5s ease-in-out both;
-          }
-        `;
-      }
+            tooltipTextElement.classList.add(randomCssClassName);
 
-      tooltipTextElement.textContent = tooltipTextContent;
+            tipnixStyleElement.innerHTML += `
+                .tipnix-tooltip.${randomCssClassName}::before {
+                    background: ${customBackgroundColor || '#333333'} !important;
+                }
+            `;
+        } else {
 
-      // Arrow background color
-      if (customBackgroundColor) {
-        const randArrow = generateRandomWord(4);
-        tooltipTextElement.classList.add(randArrow);
-        tipnixStyleElement.innerHTML += `
-          .tipnix-tooltip.${randArrow}::before {
-            background: ${customBackgroundColor} !important;
-          }
-        `;
-      } else {
-        tipnixStyleElement.innerHTML += `
-          .tipnix-tooltip::before {
-            background: ${backgroundColor} !important;
-          }
-        `;
-      }
+            tipnixStyleElement.innerHTML += `
+                .tipnix-tooltip::before {
+                    background: ${backgroundColor || '#333333'} !important;
+                }
+            `;
+        }
 
-      wrapper.append(tooltipTextElement);
+        wrapper.append(tooltipTextElement);
 
-      const wrapperHalf = wrapper.offsetWidth / 2;
-      let wrapperPosition = 0;
-      let parentElement = null;
+        let wrapperWidth = wrapper.offsetWidth / 2;
+        let wrapperPosition = 0;
+        let parentElement = null
 
-      if (customParent) {
-        parentElement = document.querySelector(customParent);
-        wrapperPosition = isRtl
-          ? ((parentElement?.getBoundingClientRect().right || 0) - wrapper.getBoundingClientRect().right)
-          : (wrapper.getBoundingClientRect().left - (parentElement?.getBoundingClientRect().left || 0));
-      } else if (parentWrapElement) {
-        parentElement = document.querySelector(parentWrapElement);
-        wrapperPosition = isRtl
-          ? ((parentElement?.getBoundingClientRect().right || 0) - wrapper.getBoundingClientRect().right)
-          : (wrapper.getBoundingClientRect().left - (parentElement?.getBoundingClientRect().left || 0));
-      } else {
-        wrapperPosition = isRtl ? wrapper.getBoundingClientRect().right : wrapper.getBoundingClientRect().left;
-      }
+        if (customParent) {
+            parentElement = document.querySelector(customParent);
+            wrapperPosition = isRtl ? parentElement.getBoundingClientRect().right - wrapper.getBoundingClientRect().right : wrapper.getBoundingClientRect().left - parentElement.getBoundingClientRect().left;
+        } else if (parentWrapElement) {
+            parentElement = document.querySelector(parentWrapElement);
+            wrapperPosition = isRtl ? parentElement.getBoundingClientRect().right - wrapper.getBoundingClientRect().right : wrapper.getBoundingClientRect().left - parentElement.getBoundingClientRect().left;
+        } else {
+            wrapperPosition = isRtl ? wrapper.getBoundingClientRect().right : wrapper.getBoundingClientRect().left;
+        }
 
-      const tooltipContentWidth = tooltipTextElement.offsetWidth;
-      const tooltipContentHeight = tooltipTextElement.offsetHeight + 15;
+        let tooltipContentWidth = tooltipTextElement.offsetWidth;
+        let tooltipContentHeight = tooltipTextElement.offsetHeight + 15;
 
-      // initial vertical placement
-      tooltipTextElement.style.top = -tooltipContentHeight + "px";
+        tooltipTextElement.style.top = -tooltipContentHeight + 'px';
 
-      // If near inline-start edge, pin to start and position arrow; else leave centered (CSS handles RTL centering)
-      if (wrapperPosition < (tooltipContentWidth / 2)) {
-        isRtl ? tooltipTextElement.style.right = -wrapperPosition + 'px' : tooltipTextElement.style.left = -wrapperPosition + 'px';
-        tooltipTextElement.style.transform = "translateX(-0%)";
+        if (wrapperPosition < (tooltipContentWidth / 2)) {
+            isRtl ? tooltipTextElement.style.right = -wrapperPosition + 'px' : tooltipTextElement.style.left = -wrapperPosition + 'px';
+            tooltipTextElement.style.transform = "translateX(-0%)";
             if (isRtl) {
                 tooltipTextElement.style.setProperty('--tooltip-before-right', `${(wrapperPosition + wrapperWidth) - 10}px`);
                 tooltipTextElement.style.setProperty('--tooltip-before-left', `unset`);
