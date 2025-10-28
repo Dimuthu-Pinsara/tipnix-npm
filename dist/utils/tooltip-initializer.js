@@ -48,13 +48,6 @@ export function useTooltip(options = {}) {
         box-shadow: 0 10px 10px rgba(0,0,0,0.1);
       }
 
-      /* RTL centered override */
-      html[dir="rtl"] .tipnix .tipnix-tooltip {
-        left: auto;
-        right: 50%;
-        transform: translateX(50%);
-      }
-
       .tipnix-tooltip::before {
         position: absolute;
         content: "";
@@ -253,30 +246,20 @@ export function useTooltip(options = {}) {
 
       // If near inline-start edge, pin to start and position arrow; else leave centered (CSS handles RTL centering)
       if (wrapperPosition < (tooltipContentWidth / 2)) {
-        if (isRtl) {
-          tooltipTextElement.style.right = -wrapperPosition + "px";
-          tooltipTextElement.style.left = "auto";
+        isRtl ? tooltipTextElement.style.right = -wrapperPosition + 'px' : tooltipTextElement.style.left = -wrapperPosition + 'px';
+        tooltipTextElement.style.transform = "translateX(-0%)";
+            if (isRtl) {
+                tooltipTextElement.style.setProperty('--tooltip-before-right', `${(wrapperPosition + wrapperWidth) - 10}px`);
+                tooltipTextElement.style.setProperty('--tooltip-before-left', `unset`);
+            } else {
+                tooltipTextElement.style.setProperty('--tooltip-before-left', `${(wrapperPosition + wrapperWidth) - 2}px`);
+                tooltipTextElement.style.setProperty('--tooltip-before-right', `unset`);
+            }
         } else {
-          tooltipTextElement.style.left = -wrapperPosition + "px";
-          tooltipTextElement.style.right = "auto";
+            tooltipTextElement.style.left = 'unset';
+            tooltipTextElement.style.transform = "unset";
+            tooltipTextElement.style.setProperty('--tooltip-before-left', `50%`);
         }
-        tooltipTextElement.style.transform = "translateX(0%)";
-
-        if (isRtl) {
-          tooltipTextElement.style.setProperty("--tooltip-before-right", `${(wrapperPosition + wrapperHalf) - 10}px`);
-          tooltipTextElement.style.setProperty("--tooltip-before-left", `unset`);
-        } else {
-          tooltipTextElement.style.setProperty("--tooltip-before-left", `${(wrapperPosition + wrapperHalf) - 2}px`);
-          tooltipTextElement.style.setProperty("--tooltip-before-right", `unset`);
-        }
-      } else {
-        // Let base CSS center it (LTR/RTL handled by CSS)
-        tooltipTextElement.style.left = "";
-        tooltipTextElement.style.right = "";
-        tooltipTextElement.style.transform = "";
-        tooltipTextElement.style.setProperty("--tooltip-before-left", `50%`);
-        tooltipTextElement.style.setProperty("--tooltip-before-right", `unset`);
-      }
     });
 
     // Hover: compute above/below
