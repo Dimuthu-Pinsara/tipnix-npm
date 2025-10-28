@@ -103,7 +103,10 @@ export function useTooltip(options = {}) {
           ? ((parentElement?.getBoundingClientRect().right || 0) - wrapper.getBoundingClientRect().right)
           : (wrapper.getBoundingClientRect().left - (parentElement?.getBoundingClientRect().left || 0));
       } else {
-        wrapperPosition = isRtl ? wrapper.getBoundingClientRect().right : wrapper.getBoundingClientRect().left;
+          wrapperPosition = isRtl ? wrapper.getBoundingClientRect().right : wrapper.getBoundingClientRect().left;
+          console.log("wrappserPosition :", wrapperPosition);
+          console.log("right wrapper pos :", wrapper.getBoundingClientRect().right);
+          console.log("left wrapper pos :", wrapper.getBoundingClientRect().left);
       }
 
       const tooltipContentWidth = tooltipTextElement.offsetWidth;
