@@ -110,10 +110,12 @@ export function useTooltip(options = {}) {
       const tooltipContentHeight = tooltipTextElement.offsetHeight + 15;
 
       // initial vertical placement
-      tooltipTextElement.style.top = -tooltipContentHeight + "px";
+            tooltipTextElement.style.top = -tooltipContentHeight + "px";
+            console.log("wrapper :",wrapperPosition);
 
       // If near inline-start edge, pin to start and position arrow; else leave centered (CSS handles RTL centering)
         if (wrapperPosition < (tooltipContentWidth / 2)) {
+            console.log("true");
             isRtl ? tooltipTextElement.style.right = -wrapperPosition + 'px' : tooltipTextElement.style.left = -wrapperPosition + 'px';
             tooltipTextElement.style.transform = "translateX(-0%)";
             if (isRtl) {
@@ -123,7 +125,8 @@ export function useTooltip(options = {}) {
                 tooltipTextElement.style.setProperty('--tooltip-before-left', `${(wrapperPosition + wrapperHalf) - 2}px`);
                 tooltipTextElement.style.setProperty('--tooltip-before-right', `unset`);
             }
-        } else {
+            } else {
+            console.log("false");
             tooltipTextElement.style.left = 'unset';
             tooltipTextElement.style.transform = "unset";
             tooltipTextElement.style.setProperty('--tooltip-before-left', `50%`);
