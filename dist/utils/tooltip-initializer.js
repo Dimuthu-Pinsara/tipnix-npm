@@ -113,29 +113,21 @@ export function useTooltip(options = {}) {
       tooltipTextElement.style.top = -tooltipContentHeight + "px";
 
       // If near inline-start edge, pin to start and position arrow; else leave centered (CSS handles RTL centering)
-      if (wrapperPosition < (tooltipContentWidth / 2)) {
-        if (isRtl) {
-          tooltipTextElement.style.right = -wrapperPosition + "px";
-          tooltipTextElement.style.left = "auto";
+        if (wrapperPosition < (tooltipContentWidth / 2)) {
+            isRtl ? tooltipTextElement.style.right = -wrapperPosition + 'px' : tooltipTextElement.style.left = -wrapperPosition + 'px';
+            tooltipTextElement.style.transform = "translateX(-0%)";
+            if (isRtl) {
+                tooltipTextElement.style.setProperty('--tooltip-before-right', `${(wrapperPosition + wrapperWidth) - 10}px`);
+                tooltipTextElement.style.setProperty('--tooltip-before-left', `unset`);
+            } else {
+                tooltipTextElement.style.setProperty('--tooltip-before-left', `${(wrapperPosition + wrapperWidth) - 2}px`);
+                tooltipTextElement.style.setProperty('--tooltip-before-right', `unset`);
+            }
         } else {
-          tooltipTextElement.style.left = -wrapperPosition + "px";
-          tooltipTextElement.style.right = "auto";
+            tooltipTextElement.style.left = 'unset';
+            tooltipTextElement.style.transform = "unset";
+            tooltipTextElement.style.setProperty('--tooltip-before-left', `50%`);
         }
-        tooltipTextElement.style.transform = "translateX(0%)";
-
-        if (isRtl) {
-          tooltipTextElement.style.setProperty("--tooltip-before-right", `${(wrapperPosition + wrapperHalf) - 10}px`);
-          tooltipTextElement.style.setProperty("--tooltip-before-left", `unset`);
-        } else {
-          tooltipTextElement.style.setProperty("--tooltip-before-left", `${(wrapperPosition + wrapperHalf) - 2}px`);
-          tooltipTextElement.style.setProperty("--tooltip-before-right", `unset`);
-        }
-      } else {
-        // Let base CSS center it (LTR/RTL handled by CSS)
-        tooltipTextElement.style.left = 'unset';
-        tooltipTextElement.style.transform = "unset";
-        tooltipTextElement.style.setProperty('--tooltip-before-left', `50%`);
-      }
         });
         // Add event listeners
         const tooltipElements = document.querySelectorAll(".tipnix");
