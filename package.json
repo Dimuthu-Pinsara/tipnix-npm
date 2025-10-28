@@ -1,6 +1,6 @@
 {
     "name": "tipnix",
-    "version": "1.0.14",
+    "version": "1.0.15",
     "description": "A lightweight, customizable tooltip plugin for web and React projects.",
     "main": "dist/index.js",
     "module": "dist/index.esm.js",
