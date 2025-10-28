@@ -97,22 +97,13 @@ export function useTooltip(options = {}) {
         wrapperPosition = isRtl
           ? ((parentElement?.getBoundingClientRect().right) - wrapper.getBoundingClientRect().right)
             : (wrapper.getBoundingClientRect().left - (parentElement?.getBoundingClientRect().left));
-            console.log("wrappserPosition custom parent:", wrapperPosition);
-            console.log("right wrapper pos :", wrapper.getBoundingClientRect().right);
-            console.log("left wrapper pos :", wrapper.getBoundingClientRect().left);
       } else if (parentWrapElement) {
         parentElement = document.querySelector(parentWrapElement);
         wrapperPosition = isRtl
           ? ((parentElement?.getBoundingClientRect().right) - wrapper.getBoundingClientRect().right)
             : (wrapper.getBoundingClientRect().left - (parentElement?.getBoundingClientRect().left ));
-            console.log("wrappserPosition parent:", wrapperPosition);
-            console.log("right wrapper pos :", wrapper.getBoundingClientRect().right);
-            console.log("left wrapper pos :", wrapper.getBoundingClientRect().left);
       } else {
           wrapperPosition = isRtl ? wrapper.getBoundingClientRect().right : wrapper.getBoundingClientRect().left;
-          console.log("wrappserPosition :", wrapperPosition);
-          console.log("right wrapper pos :", wrapper.getBoundingClientRect().right);
-          console.log("left wrapper pos :", wrapper.getBoundingClientRect().left);
       }
 
       const tooltipContentWidth = tooltipTextElement.offsetWidth;
@@ -120,15 +111,12 @@ export function useTooltip(options = {}) {
 
       // initial vertical placement
             tooltipTextElement.style.top = -tooltipContentHeight + "px";
-            console.log("wrapper :",wrapperPosition);
 
       // If near inline-start edge, pin to start and position arrow; else leave centered (CSS handles RTL centering)
         if (wrapperPosition < (tooltipContentWidth / 2)) {
-            console.log("true");
             isRtl ? tooltipTextElement.style.right = -wrapperPosition + 'px' : tooltipTextElement.style.left = -wrapperPosition + 'px';
             tooltipTextElement.style.transform = "translateX(-0%)";
             if (isRtl) {
-                console.log("is RTL :",wrapperPosition);
                 tooltipTextElement.style.setProperty('--tooltip-before-right', `${(wrapperPosition + wrapperHalf) - 10}px`);
                 tooltipTextElement.style.setProperty('--tooltip-before-left', `unset`);
             } else {
@@ -136,7 +124,6 @@ export function useTooltip(options = {}) {
                 tooltipTextElement.style.setProperty('--tooltip-before-right', `unset`);
             }
             } else {
-            console.log("false");
             tooltipTextElement.style.left = 'unset';
             tooltipTextElement.style.transform = "unset";
             tooltipTextElement.style.setProperty('--tooltip-before-left', `50%`);
