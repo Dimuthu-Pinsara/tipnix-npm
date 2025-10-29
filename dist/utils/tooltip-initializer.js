@@ -44,7 +44,8 @@ export function useTooltip(options = {}) {
             tooltipTextElement.style.backgroundColor = customBackgroundColor ? customBackgroundColor : backgroundColor;
             tooltipTextElement.style.fontSize = customFontSize ? customFontSize : fontSize;
             tooltipTextElement.style.width =
-                tooltipWidth > windowWidth ? `${windowWidth - 50}px` : customWidth ? customWidth : width ? width : "225px";
+              tooltipWidth > windowWidth ? `${windowWidth - 50}px` : customWidth ? customWidth : width ? width : "225px";
+          console.log(tooltipWidth > windowWidth ? `${windowWidth - 50}px` : customWidth ? customWidth : width ? width : "225px");
             tooltipTextElement.style.padding = customPadding ? customPadding : padding;
             if (customAnimation) {
                 const randomAnimationCssClassName = generateRandomWord(4);
