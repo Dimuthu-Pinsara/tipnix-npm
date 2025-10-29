@@ -16,6 +16,7 @@ export function useTooltip(options = {}) {
         const tooltipWrapper = document.querySelectorAll(".tipnix");
         const tipnixStyleElement = document.createElement("style");
         const windowWidth = window.innerWidth;
+        console.log("windowWidth : ",windowWidth);
         const direction = (_b = document.querySelector("html")) === null || _b === void 0 ? void 0 : _b.getAttribute("dir");
         const isRtl = direction === "rtl" ? true : false;
         tipnixStyleElement.setAttribute("id", "tipnix-style");
