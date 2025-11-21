@@ -1,6 +1,9 @@
 {
     "name": "tipnix",
-    "version": "1.0.25",
+    "type": "module",
+    "dependencies": {
+        "tslib": "^2.6.2"
+    },
     "description": "A lightweight, customizable tooltip library written in TypeScript.",
     "main": "dist/index.cjs.js",
     "module": "dist/index.esm.js",
@@ -26,7 +29,8 @@
         "@rollup/plugin-node-resolve": "^15.0.0",
         "@rollup/plugin-typescript": "^11.0.0",
         "rollup": "^4.0.0",
-        "rollup-plugin-terser": "^7.0.0",
+        "rollup-plugin-postcss": "^4.0.0",
+        "@rollup/plugin-terser": "^0.4.4",
         "typescript": "^5.5.0"
     }
 }

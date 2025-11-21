@@ -1,1 +1,2 @@
-export { useTooltip } from "./utils/tooltip-initializer";
+import './style.css';
+export { initTipNixTooltip } from './tooltip';
