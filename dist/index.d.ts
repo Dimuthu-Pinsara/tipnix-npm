@@ -1,1 +1,2 @@
-export { useTooltip } from "./utils/tooltip-initializer";
+export * from './core/type';
+export * from './core/tipnix';

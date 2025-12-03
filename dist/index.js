@@ -1,2 +1,3 @@
-"use client";
-export { useTooltip } from "./utils/tooltip-initializer";
+// src/index.ts
+export * from './core/type';
+export * from './core/tipnix';
