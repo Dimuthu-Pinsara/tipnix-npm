@@ -48,6 +48,7 @@
   right: var(--tooltip-before-right, unset);
   transform: translate(-50%) rotate(45deg);
   background: var(--background);
+  background-color: inherit;
 }
 
 .tipnix:hover .tipnix-tooltip {
