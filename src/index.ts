@@ -117,8 +117,11 @@ export interface TipNixOptions {
         position = isRtl
           ? parentRect.right - wrapperRect.right
           : wrapperRect.left - parentRect.left;
+        console.log("parent posiition : ", position);
+        
       } else {
         position = isRtl ? wrapperRect.right : wrapperRect.left;
+        console.log("position : ", position);
       }
   
       const contentWidth = span.offsetWidth;
@@ -126,8 +129,7 @@ export interface TipNixOptions {
   
       span.style.top = `-${contentHeight}px`;
 
-      console.log("position : ", position);
-      console.log("content : ", contentWidth / 2);
+      console.log("content : ", contentWidth);
   
       if (position < contentWidth / 2) {
         if (isRtl) {
