@@ -127,7 +127,7 @@ export interface TipNixOptions {
       span.style.top = `-${contentHeight}px`;
 
       console.log("position : ", position);
-      console.log("position : ", contentWidth / 2);
+      console.log("content : ", contentWidth / 2);
   
       if (position < contentWidth / 2) {
         if (isRtl) {
