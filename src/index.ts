@@ -96,6 +96,9 @@ export interface TipNixOptions {
           }
         `;
       }
+
+      const existingTooltips = wrapper.querySelectorAll(".tipnix-tooltip");
+      existingTooltips.forEach((el) => el.remove());
   
       span.style.setProperty("--tooltip-before-left", "50%");
       wrapper.appendChild(span);
