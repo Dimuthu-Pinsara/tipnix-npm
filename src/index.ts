@@ -111,6 +111,8 @@ export interface TipNixOptions {
       } else if (parentWrapElement) {
         console.log("parentWrapElement : ",parentWrapElement);
         parentEl = document.querySelector<HTMLElement>(parentWrapElement);
+      } else {
+        parentEl = document.querySelector("body") as HTMLElement | null;
       }
   
       console.log("wrapper :", wrapper);
