@@ -109,7 +109,6 @@ export interface TipNixOptions {
       if (customParent) {
         parentEl = document.querySelector<HTMLElement>(customParent);
       } else if (parentWrapElement) {
-        console.log("parentWrapElement : ",parentWrapElement);
         parentEl = document.querySelector<HTMLElement>(parentWrapElement);
       } else {
         parentEl = document.querySelector("body") as HTMLElement | null;
