@@ -45,47 +45,123 @@ pnpm add tipnix
 
 ### React
 
+To use this package effectively, create your own tooltip component first :
+
 ```jsx
-import { useTooltip } from 'tipnix';
+import React from "react";
+import { useEffect,useRef } from "react";
+import { initTipNixTooltip } from "tipnix";
+import "tipnix/tipnix.css";
 
-export default function App() {
-  useTooltip({
-    textColor: "#ffffff",
-    backgroundColor: "#333333",
-    fontSize: "16px",
-  });
+export default function Tooltip({ ...props }) {
+  const initializedRef = useRef(false);
 
+  useEffect(() => {
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
+    initTipNixTooltip({
+      backgroundColor: "#000000",
+      textColor: "#ffffff",
+      fontSize: "16px",
+      animation: "wobble",
+      width: "225px",
+      padding: "10px",
+    });
+  }, []);
   return (
-    <div className="tipnix" tipnix-text="This is a tooltip example">
-      Hover over me
+    <div className="tipnix" {...props}>
+      {props.children}
     </div>
   );
 }
 ```
 
-### Next.js (App Router)
+## Import this component into your main layout
 
-```jsx
-'use client';
+```js
+import './App.css';
+import Tooltip from './components/tooltip';
 
-import { useTooltip } from 'tipnix';
-
-export default function TooltipComponent() {
-  useTooltip({
-    textColor: "#ffffff",
-    backgroundColor: "#333333",
-    fontSize: "16px",
-  });
+function App() {
 
   return (
-    <div 
-      className="tipnix w-max text-sm p-2 tooltip-bg bg-[#18181b]" 
-      tipnix-bg="#333333" 
-      tipnix-text-color="#FF0000" 
-      tipnix-text="This is a tooltip example" 
-      tipnix-font-size="12px"
-    >
-      This is a tooltip example
+    <>
+      <div>
+          <Tooltip
+            key={index}
+            tipnix-bg="#00aaff"
+            tipnix-text-color="#ffffff"
+            tipnix-font-size="12px"
+            tipnix-text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem inventore sapiente necessitatibus voluptates cum totam nihil maiores est corrupti beatae nam animi cupiditate aperiam, reprehenderit aspernatur. Dicta velit illo est."
+            tipnix-width="200px"
+            tipnix-padding="16px"
+            tipnix-animation="wobble"
+          >
+          <span style={{ cursor: "pointer" }}>Hover</span>
+          </Tooltip>
+      </div>
+    </>
+  );
+}
+
+export default App;
+```
+
+### Next.js
+
+To use this package effectively, create your own tooltip component first :
+
+```jsx
+'use client'
+
+import React from 'react'
+import { useEffect,useRef } from "react";
+import { initTipNixTooltip } from "tipnix";
+import "tipnix/tipnix.css";
+
+export default function Tooltip({ ...props }) {
+    const initializedRef = useRef(false);
+
+    useEffect(() => {
+      if (initializedRef.current) return;
+      initializedRef.current = true;
+  
+      initTipNixTooltip({
+        backgroundColor: "#000000",
+        textColor: "#ffffff",
+        fontSize: "16px",
+        animation: "wobble",
+        width: "225px",
+        padding: "10px",
+      });
+    }, []);
+    return (
+      <div className="tipnix" {...props}>
+        {props.children}
+      </div>
+    );
+}
+```
+
+## Import this component into your main layout
+
+```jsx
+import Tooltip from "@/components/tooltip";
+
+export default function Home() {
+  return (
+    <div className="bg-zinc-50 font-sans py-8 test">
+      <Tooltip
+        tipnix-bg="#00aaff"
+        tipnix-text-color="#ffffff"
+        tipnix-font-size="12px"
+        tipnix-text="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum quos, quaerat quidem quam omnis nobis optio? Unde voluptas tempore ipsam iure iusto obcaecati officiis, aliquam eos sapiente dolorem similique dolore."
+        tipnix-padding="16px"
+        tipnix-animation="wobble"
+      >
+        <span style={{ cursor: "pointer" }}>Hover</span>
+      </Tooltip>
     </div>
   );
 }
@@ -98,7 +174,7 @@ export default function TooltipComponent() {
 Initialize Tipnix with these options:
 
 ```javascript
-useTooltip({
+initTipNixTooltip({
   backgroundColor: '#000000',    // Tooltip background color (HEX/RGB)
   textColor: '#FFFFFF',          // Tooltip text color (HEX/RGB)
   fontSize: '14px',              // Font size (px, em, rem)
@@ -152,10 +228,15 @@ Tipnix supports multiple animation styles:
 ### Basic Tooltip
 
 ```jsx
-import { useTooltip } from 'tipnix';
+'use client'
+
+import React from 'react'
+import { useEffect,useRef } from "react";
+import { initTipNixTooltip } from "tipnix";
+import "tipnix/tipnix.css";
 
 export default function BasicTooltip() {
-  useTooltip({
+  initTipNixTooltip({
     backgroundColor: '#000000',
     textColor: '#FFFFFF',
   });
@@ -171,10 +252,15 @@ export default function BasicTooltip() {
 ### Custom Styled Tooltip
 
 ```jsx
-import { useTooltip } from 'tipnix';
+'use client'
+
+import React from 'react'
+import { useEffect,useRef } from "react";
+import { initTipNixTooltip } from "tipnix";
+import "tipnix/tipnix.css";
 
 export default function CustomTooltip() {
-  useTooltip({
+  initTipNixTooltip({
     backgroundColor: '#FF6B6B',
     textColor: '#FFFFFF',
     fontSize: '14px',
@@ -197,10 +283,15 @@ export default function CustomTooltip() {
 ### Multiple Tooltips with Different Styles
 
 ```jsx
-import { useTooltip } from 'tipnix';
+'use client'
+
+import React from 'react'
+import { useEffect,useRef } from "react";
+import { initTipNixTooltip } from "tipnix";
+import "tipnix/tipnix.css";
 
 export default function MultipleTooltips() {
-  useTooltip({
+  initTipNixTooltip({
     backgroundColor: '#333333',
     textColor: '#FFFFFF',
   });
@@ -238,10 +329,15 @@ export default function MultipleTooltips() {
 ### With Tailwind CSS
 
 ```jsx
-import { useTooltip } from 'tipnix';
+'use client'
+
+import React from 'react'
+import { useEffect,useRef } from "react";
+import { initTipNixTooltip } from "tipnix";
+import "tipnix/tipnix.css";
 
 export default function TailwindTooltip() {
-  useTooltip({
+  initTipNixTooltip({
     backgroundColor: '#1F2937',
     textColor: '#F3F4F6',
     fontSize: '13px',
@@ -267,13 +363,18 @@ export default function TailwindTooltip() {
 ### Dynamic Tooltip Content
 
 ```jsx
-import { useTooltip } from 'tipnix';
+'use client'
+
+import React from 'react'
+import { useEffect,useRef } from "react";
+import { initTipNixTooltip } from "tipnix";
+import "tipnix/tipnix.css";
 import { useState } from 'react';
 
 export default function DynamicTooltip() {
   const [tooltipText, setTooltipText] = useState('Initial text');
 
-  useTooltip({
+  initTipNixTooltip({
     backgroundColor: '#333333',
     textColor: '#FFFFFF',
   });
@@ -295,10 +396,15 @@ export default function DynamicTooltip() {
 ### Conditional Tooltips
 
 ```jsx
-import { useTooltip } from 'tipnix';
+'use client'
+
+import React from 'react'
+import { useEffect,useRef } from "react";
+import { initTipNixTooltip } from "tipnix";
+import "tipnix/tipnix.css";
 
 export default function ConditionalTooltip({ isDisabled }) {
-  useTooltip({
+  initTipNixTooltip({
     backgroundColor: '#333333',
     textColor: '#FFFFFF',
   });
@@ -369,7 +475,7 @@ Initializes Tipnix Tooltip with the provided configuration.
 
 **Example:**
 ```javascript
-useTooltip({
+initTipNixTooltip({
   backgroundColor: '#000000',
   textColor: '#FFFFFF',
   fontSize: '14px',
