@@ -114,9 +114,6 @@ export interface TipNixOptions {
       } else {
         parentEl = document.querySelector("body") as HTMLElement | null;
       }
-  
-      console.log("wrapper :", wrapper);
-      console.log("parent element :", parentEl);
 
       const wrapperRect = wrapper.getBoundingClientRect();
       const parentRect = parentEl?.getBoundingClientRect();
