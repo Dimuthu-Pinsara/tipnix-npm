@@ -14,7 +14,6 @@
   width: max-content;
   display: grid;
   place-items: center;
-  margin-top: 400px;
   background-color: var(--background);
 }
 
@@ -28,7 +27,7 @@
   pointer-events: none;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   background: var(--background);
-  z-index: 100;
+  z-index: 10000;
   border-radius: 8px;
   transform-origin: 0 0;
   text-transform: capitalize;
