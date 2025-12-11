@@ -53,7 +53,7 @@ import { useEffect,useRef } from "react";
 import { initTipNixTooltip } from "tipnix";
 import "tipnix/tipnix.css";
 
-export default function Tooltip({ ...props }) {
+export default function Tooltip({ className='', ...props }) {
   const initializedRef = useRef(false);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function Tooltip({ ...props }) {
     });
   }, []);
   return (
-    <div className="tipnix" {...props}>
+    <div className={`tipnix ${className}`} {...props}>
       {props.children}
     </div>
   );
@@ -120,7 +120,7 @@ import { useEffect,useRef } from "react";
 import { initTipNixTooltip } from "tipnix";
 import "tipnix/tipnix.css";
 
-export default function Tooltip({ ...props }) {
+export default function Tooltip({ className='', ...props }) {
     const initializedRef = useRef(false);
 
     useEffect(() => {
@@ -137,7 +137,7 @@ export default function Tooltip({ ...props }) {
       });
     }, []);
     return (
-      <div className="tipnix" {...props}>
+      <div className={`tipnix ${className}`} {...props}>
         {props.children}
       </div>
     );
