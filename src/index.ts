@@ -134,7 +134,7 @@ export interface TipNixOptions {
       console.log("position : ", position);
       console.log("contentWidth : ", contentWidth);
 
-      if (position < contentWidth / 2) {
+      if (position < contentWidth) {
         console.log("Condition true");
         if (isRtl) {
           span.style.right = `${-position}px`;
@@ -154,7 +154,8 @@ export interface TipNixOptions {
         span.style.transform = "translateX(0)";
       } else {
         console.log("Condition false");
-        span.style.left = "unset";
+        isRtl ? (span.style.left = "0px") : (span.style.right = "0px");
+        isRtl ? (span.style.right = "unset") : (span.style.left = "unset");
         span.style.transform = "unset";
         span.style.setProperty("--tooltip-before-left", "50%");
       }
