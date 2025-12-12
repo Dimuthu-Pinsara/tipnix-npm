@@ -131,6 +131,9 @@ export interface TipNixOptions {
   
       span.style.top = `-${contentHeight}px`;
 
+      console.log("position : ", position);
+      console.log("contentWidth : ", contentWidth);
+
       if (position < contentWidth / 2) {
         if (isRtl) {
           span.style.right = `${-position}px`;
