@@ -155,7 +155,6 @@ export interface TipNixOptions {
       } else {
         console.log("Condition false");
         span.style.left = "unset";
-        isRtl ? (span.style.left = "0px") : (span.style.right = "0px");
         span.style.transform = "unset";
         span.style.setProperty("--tooltip-before-left", "50%");
       }
