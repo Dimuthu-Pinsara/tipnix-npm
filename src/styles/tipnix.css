@@ -5,7 +5,7 @@
   position: relative;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--color);
   border-radius: 8px;
@@ -15,6 +15,7 @@
   display: grid;
   place-items: center;
   background-color: var(--background);
+  padding: 4px 8px;
 }
 
 .tipnix-tooltip {

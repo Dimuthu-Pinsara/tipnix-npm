@@ -131,11 +131,7 @@ export interface TipNixOptions {
   
       span.style.top = `-${contentHeight}px`;
 
-      console.log("position : ", position);
-      console.log("contentWidth : ", contentWidth);
-
       if (position < contentWidth) {
-        console.log("Condition true");
         if (isRtl) {
           span.style.right = `${-position}px`;
           span.style.setProperty(
@@ -153,7 +149,6 @@ export interface TipNixOptions {
         }
         span.style.transform = "translateX(0)";
       } else {
-        console.log("Condition false");
         isRtl ? (span.style.left = "0px") : (span.style.right = "0px");
         isRtl ? (span.style.right = "unset") : (span.style.left = "unset");
         span.style.transform = "unset";
