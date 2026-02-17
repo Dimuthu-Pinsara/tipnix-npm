@@ -7,14 +7,12 @@
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   font-size: 12px;
   font-weight: 500;
-  color: var(--color);
   border-radius: 8px;
   text-transform: uppercase;
   height: auto;
   width: max-content;
   display: grid;
   place-items: center;
-  background-color: var(--background);
   padding: 4px 8px;
 }
 
@@ -59,12 +57,6 @@
   scale: 1;
 }
 
-.tipnix:hover {
-  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-  color: white;
-  border-color: transparent;
-}
-
 .tooltip-above::before {
   top: unset !important;
   bottom: -0.2em !important;
@@ -97,7 +89,7 @@
   }
 }
 
-@keyframes bounce {
+@keyframes tipnix-bounce {
   0%,
   100% {
     transform: translateY(0);
@@ -108,7 +100,7 @@
   }
 }
 
-@keyframes fadeSlideUp {
+@keyframes tipnix-fadeSlideUp {
   0% {
     opacity: 0;
     transform: translateY(10px);
@@ -120,7 +112,7 @@
   }
 }
 
-@keyframes zoom {
+@keyframes tipnix-zoom {
   0% {
     transform: scale(0.8);
   }
@@ -134,7 +126,7 @@
   }
 }
 
-@keyframes pulse {
+@keyframes tipnix-pulse {
   0%,
   100% {
     transform: scale(1);
@@ -147,7 +139,7 @@
   }
 }
 
-@keyframes flipIn {
+@keyframes tipnix-flipIn {
   0% {
     transform: rotateX(-90deg);
     opacity: 0;
@@ -159,7 +151,7 @@
   }
 }
 
-@keyframes slideInLeft {
+@keyframes tipnix-slideInLeft {
   0% {
     transform: translateX(-20px);
     opacity: 0;
@@ -171,7 +163,7 @@
   }
 }
 
-@keyframes swing {
+@keyframes tipnix-swing {
   0% {
     transform: rotate(0deg);
   }
@@ -197,7 +189,7 @@
   }
 }
 
-@keyframes fadeInScale {
+@keyframes tipnix-fadeInScale {
   0% {
     opacity: 0;
     transform: scale(0.8);
@@ -209,7 +201,7 @@
   }
 }
 
-@keyframes tiltFadeIn {
+@keyframes tipnix-tiltFadeIn {
   0% {
     opacity: 0;
     transform: rotate(-10deg) translateY(10px);

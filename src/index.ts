@@ -86,7 +86,7 @@ export interface TipNixOptions {
       } else if (animation) {
         styleEl!.innerHTML += `
           ${selector}:hover .tipnix-tooltip {
-            animation: ${animation} 0.5s ease-in-out both;
+            animation: tipnix-${animation} 0.5s ease-in-out both;
           }
         `;
       } else {
