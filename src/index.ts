@@ -38,9 +38,7 @@ export interface TipNixOptions {
   
     const tooltips = document.querySelectorAll<HTMLElement>(selector);
     const windowWidth = window.innerWidth;
-    const direction = document.documentElement.getAttribute("dir");
-    const isRtl = direction === "rtl";
-  
+    
     if (!tooltips.length) return;
   
     let styleEl = document.querySelector<HTMLStyleElement>("#tipnix-style");
@@ -103,57 +101,35 @@ export interface TipNixOptions {
       span.style.setProperty("--tooltip-before-left", "50%");
       wrapper.appendChild(span);
   
-      const wrapperWidth = wrapper.offsetWidth / 2;
-  
-      let parentEl: HTMLElement | null = null;
-      if (customParent) {
-        parentEl = document.querySelector<HTMLElement>(customParent);
-      } else if (parentWrapElement) {
-        parentEl = document.querySelector<HTMLElement>(parentWrapElement);
-      } else {
-        parentEl = document.querySelector("body") as HTMLElement | null;
-      }
-
       const wrapperRect = wrapper.getBoundingClientRect();
-      const parentRect = parentEl?.getBoundingClientRect();
-  
-      let position: number;
-      if (parentRect) {
-        position = isRtl
-          ? parentRect.right - wrapperRect.right
-          : wrapperRect.left - parentRect.left;
-      } else {
-        position = isRtl ? wrapperRect.right : wrapperRect.left;
-      }
-  
+      const viewportPadding = 16;
       const contentWidth = span.offsetWidth;
       const contentHeight = span.offsetHeight + 15;
-  
-      span.style.top = `-${contentHeight}px`;
 
-      if (position < contentWidth) {
-        if (isRtl) {
-          span.style.right = `${-position}px`;
-          span.style.setProperty(
-            "--tooltip-before-right",
-            `${position + wrapperWidth - 10}px`
-          );
-          span.style.setProperty("--tooltip-before-left", "unset");
-        } else {
-          span.style.left = `${-position}px`;
-          span.style.setProperty(
-            "--tooltip-before-left",
-            `${position + wrapperWidth - 2}px`
-          );
-          span.style.setProperty("--tooltip-before-right", "unset");
-        }
-        span.style.transform = "translateX(0)";
-      } else {
-        isRtl ? (span.style.left = "0px") : (span.style.right = "0px");
-        isRtl ? (span.style.right = "unset") : (span.style.left = "unset");
-        span.style.transform = "unset";
-        span.style.setProperty("--tooltip-before-left", "50%");
+      span.style.top = `-${contentHeight}px`;
+      span.style.left = "50%";
+      span.style.right = "unset";
+
+      const wrapperCenterX = wrapperRect.left + wrapperRect.width / 2;
+      let tooltipLeft = wrapperCenterX - contentWidth / 2;
+      let shiftX = 0;
+
+      if (tooltipLeft < viewportPadding) {
+        shiftX = viewportPadding - tooltipLeft;
       }
+
+      const maxRight = windowWidth - viewportPadding;
+      if (tooltipLeft + contentWidth > maxRight) {
+        shiftX = maxRight - (tooltipLeft + contentWidth);
+      }
+
+      span.style.transform = `translateX(calc(-50% + ${shiftX}px))`;
+
+      span.style.setProperty(
+        "--tooltip-before-left",
+        `calc(50% - ${shiftX}px)`
+      );
+      span.style.setProperty("--tooltip-before-right", "unset");
   
       wrapper.addEventListener("mouseenter", () => {
         updateVerticalPosition(wrapper, span);
