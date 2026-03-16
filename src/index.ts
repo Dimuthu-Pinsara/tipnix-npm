@@ -9,6 +9,8 @@ export interface TipNixOptions {
     padding?: string;
     parentWrapElement?: string;
     selector?: string;
+    viewportSafeMargin?: number;
+    renderAsHtml?: boolean;
   }
   
   // Helper to support both data-tipnix-* (recommended) and legacy tipnix-*
@@ -33,7 +35,9 @@ export interface TipNixOptions {
       width = "225px",
       padding = "16px",
       parentWrapElement,
-      selector = ".tipnix"
+      selector = ".tipnix",
+      viewportSafeMargin = 16,
+      renderAsHtml = false
     } = options;
   
     const tooltips = document.querySelectorAll<HTMLElement>(selector);
@@ -54,13 +58,22 @@ export interface TipNixOptions {
       const customFontSize = getAttr(wrapper, "font-size", fontSize)!;
       const customWidth = getAttr(wrapper, "width", width)!;
       const customPadding = getAttr(wrapper, "padding", padding)!;
-      const customParent = getAttr(wrapper, "parent", parentWrapElement);
+      // const customParent = getAttr(wrapper, "parent", parentWrapElement);
       const customAnimation = getAttr(wrapper, "animation", animation);
       const tooltipTextContent = getAttr(wrapper, "text", "") || "";
+      const customRenderHtmlAttr = getAttr(wrapper, "render-html");
+      
+      const customRenderAsHtml = customRenderHtmlAttr !== undefined 
+        ? customRenderHtmlAttr !== "false" 
+        : renderAsHtml;
   
       const span = document.createElement("span");
       span.classList.add("tipnix-tooltip");
-      span.textContent = tooltipTextContent;
+      if (customRenderAsHtml) {
+        span.innerHTML = tooltipTextContent;
+      } else {
+        span.textContent = tooltipTextContent;
+      }
   
       const parsedWidth = parseInt(customWidth, 10);
       const effectiveWidth =
@@ -101,52 +114,54 @@ export interface TipNixOptions {
       span.style.setProperty("--tooltip-before-left", "50%");
       wrapper.appendChild(span);
   
-      const wrapperRect = wrapper.getBoundingClientRect();
-      const viewportPadding = 16;
-      const contentWidth = span.offsetWidth;
-      const contentHeight = span.offsetHeight + 15;
-
-      span.style.top = `-${contentHeight}px`;
+      span.style.top = `-${span.offsetHeight + 8}px`;
       span.style.left = "50%";
       span.style.right = "unset";
 
-      const wrapperCenterX = wrapperRect.left + wrapperRect.width / 2;
-      let tooltipLeft = wrapperCenterX - contentWidth / 2;
-      let shiftX = 0;
-
-      if (tooltipLeft < viewportPadding) {
-        shiftX = viewportPadding - tooltipLeft;
-      }
-
-      const maxRight = windowWidth - viewportPadding;
-      if (tooltipLeft + contentWidth > maxRight) {
-        shiftX = maxRight - (tooltipLeft + contentWidth);
-      }
-
-      span.style.transform = `translateX(calc(-50% + ${shiftX}px))`;
-
-      span.style.setProperty(
-        "--tooltip-before-left",
-        `calc(50% - ${shiftX}px)`
-      );
-      span.style.setProperty("--tooltip-before-right", "unset");
-  
       wrapper.addEventListener("mouseenter", () => {
-        updateVerticalPosition(wrapper, span);
+        updatePosition(wrapper, span, viewportSafeMargin);
       });
     });
   }
   
-  function updateVerticalPosition(wrapper: HTMLElement, span: HTMLElement): void {
-    const wrapTop = wrapper.getBoundingClientRect().top;
-    const tooltipHeight = span.offsetHeight + 15;
-    const wrapHeight = wrapper.offsetHeight + 10;
+  function updatePosition(wrapper: HTMLElement, span: HTMLElement, viewportSafeMargin: number): void {
+    const wrapRect = wrapper.getBoundingClientRect();
+    const docWidth = document.documentElement.clientWidth || window.innerWidth;
+    
+    const safeMarginAttr = getAttr(wrapper, "safe-margin");
+    const viewportPadding = safeMarginAttr && !isNaN(parseInt(safeMarginAttr, 10))
+      ? parseInt(safeMarginAttr, 10)
+      : viewportSafeMargin;
+
+    const contentWidth = span.offsetWidth;
+    const tooltipHeight = span.offsetHeight + 8;
+    const wrapHeight = wrapper.offsetHeight + 8;
   
-    const above = wrapTop > tooltipHeight;
-  
+    // Vertical position
+    const above = wrapRect.top > tooltipHeight;
     span.style.top = above ? `-${tooltipHeight}px` : `${wrapHeight}px`;
     span.classList.toggle("tooltip-above", above);
     span.classList.toggle("tooltip-below", !above);
+
+    // Horizontal position
+    const wrapperCenterX = wrapRect.left + wrapRect.width / 2;
+    let tooltipLeft = wrapperCenterX - contentWidth / 2;
+    let shiftX = 0;
+
+    if (tooltipLeft < viewportPadding) {
+      shiftX = viewportPadding - tooltipLeft;
+    }
+
+    const maxRight = docWidth - viewportPadding;
+    if (tooltipLeft + contentWidth > maxRight) {
+      shiftX = maxRight - (tooltipLeft + contentWidth);
+    }
+
+    span.style.transform = `translateX(calc(-50% + ${shiftX}px))`;
+    span.style.setProperty(
+      "--tooltip-before-left",
+      `calc(50% - ${shiftX}px)`
+    );
   }
   
   function generateRandomWord(length = 4): string {
