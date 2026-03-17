@@ -10,7 +10,7 @@
   border-radius: 8px;
   text-transform: uppercase;
   height: auto;
-  width: max-content;
+  width: 100%;
   display: grid;
   place-items: center;
   padding: 4px 8px;
