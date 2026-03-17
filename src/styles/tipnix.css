@@ -38,8 +38,8 @@
 .tipnix-tooltip::before {
   position: absolute;
   content: '';
-  height: 0.6em;
-  width: 0.6em;
+  height: 0.8em;
+  width: 0.8em;
   bottom: var(--tooltip-before-bottom, -0.2em);
   top: var(--tooltip-before-top, -0.2em);
   left: var(--tooltip-before-left, 0);
