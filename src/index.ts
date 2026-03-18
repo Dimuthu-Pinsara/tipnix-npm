@@ -117,6 +117,8 @@ export interface TipNixOptions {
       span.style.top = `-${span.offsetHeight + 8}px`;
       span.style.left = "50%";
       span.style.right = "unset";
+      span.style.transform = "translateX(-50%)";
+      span.classList.add("tooltip-above");
 
       wrapper.addEventListener("mouseenter", () => {
         updatePosition(wrapper, span, viewportSafeMargin);
