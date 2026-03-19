@@ -53,7 +53,6 @@
 }
 
 .tipnix:hover .tipnix-tooltip {
-  top: -100%;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
