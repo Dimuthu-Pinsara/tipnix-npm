@@ -58,7 +58,7 @@ export interface TipNixOptions {
       const customFontSize = getAttr(wrapper, "font-size", fontSize)!;
       const customWidth = getAttr(wrapper, "width", width)!;
       const customPadding = getAttr(wrapper, "padding", padding)!;
-      // const customParent = getAttr(wrapper, "parent", parentWrapElement);
+      const customParent = getAttr(wrapper, "parent", parentWrapElement);
       const customAnimation = getAttr(wrapper, "animation", animation);
       const tooltipTextContent = getAttr(wrapper, "text", "") || "";
       const customRenderHtmlAttr = getAttr(wrapper, "render-html");
@@ -121,14 +121,30 @@ export interface TipNixOptions {
       span.classList.add("tooltip-above");
 
       wrapper.addEventListener("mouseenter", () => {
-        updatePosition(wrapper, span, viewportSafeMargin);
+        updatePosition(wrapper, span, viewportSafeMargin, customParent);
       });
     });
   }
   
-  function updatePosition(wrapper: HTMLElement, span: HTMLElement, viewportSafeMargin: number): void {
+  function updatePosition(
+    wrapper: HTMLElement,
+    span: HTMLElement,
+    viewportSafeMargin: number,
+    customParent?: string
+  ): void {
     const wrapRect = wrapper.getBoundingClientRect();
-    const docWidth = document.documentElement.clientWidth || window.innerWidth;
+    
+    let containerLeft = 0;
+    let containerRight = document.documentElement.clientWidth || window.innerWidth;
+
+    if (customParent) {
+      const parentEl = document.querySelector<HTMLElement>(customParent);
+      if (parentEl) {
+        const parentRect = parentEl.getBoundingClientRect();
+        containerLeft = parentRect.left;
+        containerRight = parentRect.right;
+      }
+    }
     
     const safeMarginAttr = getAttr(wrapper, "safe-margin");
     const viewportPadding = safeMarginAttr && !isNaN(parseInt(safeMarginAttr, 10))
@@ -150,13 +166,17 @@ export interface TipNixOptions {
     let tooltipLeft = wrapperCenterX - contentWidth / 2;
     let shiftX = 0;
 
-    if (tooltipLeft < viewportPadding) {
-      shiftX = viewportPadding - tooltipLeft;
+    const minLeft = containerLeft + viewportPadding;
+    if (tooltipLeft < minLeft) {
+      shiftX = minLeft - tooltipLeft;
     }
 
-    const maxRight = docWidth - viewportPadding;
+    const maxRight = containerRight - viewportPadding;
     if (tooltipLeft + contentWidth > maxRight) {
       shiftX = maxRight - (tooltipLeft + contentWidth);
+      if (tooltipLeft + shiftX < minLeft) {
+        shiftX = minLeft - tooltipLeft;
+      }
     }
 
     span.style.transform = `translateX(calc(-50% + ${shiftX}px))`;
