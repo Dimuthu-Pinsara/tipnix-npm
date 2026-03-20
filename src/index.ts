@@ -11,6 +11,10 @@ export interface TipNixOptions {
     selector?: string;
     viewportSafeMargin?: number;
     renderAsHtml?: boolean;
+    customClass?: string;
+    zIndex?: string | number;
+    arrowInset?: number;
+    threshold?: number;
   }
   
   // Helper to support both data-tipnix-* (recommended) and legacy tipnix-*
@@ -37,7 +41,9 @@ export interface TipNixOptions {
       parentWrapElement,
       selector = ".tipnix",
       viewportSafeMargin = 16,
-      renderAsHtml = false
+      renderAsHtml = false,
+      arrowInset = 20,
+      threshold = 0.9
     } = options;
   
     const tooltips = document.querySelectorAll<HTMLElement>(selector);
@@ -62,14 +68,36 @@ export interface TipNixOptions {
       const customAnimation = getAttr(wrapper, "animation", animation);
       const tooltipTextContent = getAttr(wrapper, "text", "") || "";
       const customRenderHtmlAttr = getAttr(wrapper, "render-html");
+      const customZIndex = getAttr(wrapper, "zindex", options.zIndex ? String(options.zIndex) : undefined);
+      const customClassName = getAttr(wrapper, "class", options.customClass);
       
+      const customArrowInsetAttr = getAttr(wrapper, "arrow-inset", String(arrowInset));
+      const customThresholdAttr = getAttr(wrapper, "threshold", String(threshold));
+
       const customRenderAsHtml = customRenderHtmlAttr !== undefined 
         ? customRenderHtmlAttr !== "false" 
         : renderAsHtml;
+
+      const finalArrowInset = !isNaN(parseInt(customArrowInsetAttr!, 10)) ? parseInt(customArrowInsetAttr!, 10) : arrowInset;
+      const finalThreshold = !isNaN(parseFloat(customThresholdAttr!)) ? parseFloat(customThresholdAttr!) : threshold;
   
       const span = document.createElement("span");
       span.classList.add("tipnix-tooltip");
-      if (customRenderAsHtml) {
+
+      // Apply external custom class if provided
+      if (customClassName) {
+        span.className += ` ${customClassName}`;
+      }
+
+      // Check if the user placed a custom React/HTML node inside the wrapper
+      const customContentNode = wrapper.querySelector('[data-tipnix-content]');
+      if (customContentNode) {
+        // Automatically display it if they hid it visually
+        if ((customContentNode as HTMLElement).style.display === "none") {
+          (customContentNode as HTMLElement).style.display = "";
+        }
+        span.appendChild(customContentNode);
+      } else if (customRenderAsHtml) {
         span.innerHTML = tooltipTextContent;
       } else {
         span.textContent = tooltipTextContent;
@@ -84,6 +112,9 @@ export interface TipNixOptions {
       span.style.fontSize = customFontSize;
       span.style.width = effectiveWidth;
       span.style.padding = customPadding;
+
+      // Apply extended customizations
+      if (customZIndex) span.style.zIndex = customZIndex;
   
       // Animation rules
       if (customAnimation) {
@@ -121,7 +152,7 @@ export interface TipNixOptions {
       span.classList.add("tooltip-above");
 
       wrapper.addEventListener("mouseenter", () => {
-        updatePosition(wrapper, span, viewportSafeMargin, customParent);
+        updatePosition(wrapper, span, viewportSafeMargin, customParent, finalArrowInset, finalThreshold);
       });
     });
   }
@@ -130,7 +161,9 @@ export interface TipNixOptions {
     wrapper: HTMLElement,
     span: HTMLElement,
     viewportSafeMargin: number,
-    customParent?: string
+    customParent?: string,
+    arrowInsetParam: number = 20,
+    thresholdParam: number = 0.9
   ): void {
     const wrapRect = wrapper.getBoundingClientRect();
     
@@ -162,24 +195,59 @@ export interface TipNixOptions {
     span.classList.toggle("tooltip-below", !above);
 
     // Horizontal position
+    // Default: Center the tooltip directly above/below the triggering element
     const wrapperCenterX = wrapRect.left + wrapRect.width / 2;
     let tooltipLeft = wrapperCenterX - contentWidth / 2;
-    let shiftX = 0;
+    let shiftX = 0; // Represents the physical pixel shift from the centered origin point
 
-    const minLeft = containerLeft + viewportPadding;
-    if (tooltipLeft < minLeft) {
-      shiftX = minLeft - tooltipLeft;
+    // Dynamic Threshold Layout:
+    // We check how much physical space exists left/right of the trigger's center.
+    const spaceLeft = wrapperCenterX - containerLeft;
+    const spaceRight = containerRight - wrapperCenterX;
+    
+    // If available side space is less than threshold percentage of the tooltip's width, it would look cramped.
+    const threshold = contentWidth * thresholdParam;
+    
+    // We statically position the arrow arrowInset away from the heavy-shifted tooltip edge
+    const arrowInset = arrowInsetParam;
+
+    if (spaceLeft < threshold && spaceRight >= threshold) {
+      // Not enough space on the Left -> sharply push the entire tooltip body to the Right side
+      // The cursor sits 24px in from the left edge of the tooltip.
+      shiftX = contentWidth / 2 - arrowInset;
+    } else if (spaceRight < threshold && spaceLeft >= threshold) {
+      // Not enough space on the Right -> sharply push the entire tooltip body to the Left side
+      // The cursor sits 24px in from the right edge of the tooltip.
+      shiftX = -(contentWidth / 2 - arrowInset);
     }
 
+    // Recalculate horizontal bounding box coordinates after structural shift
+    tooltipLeft = wrapperCenterX - contentWidth / 2 + shiftX;
+    
+    // Safety Bounds (Viewport Clipping):
+    // Regardless of our strong shifts above, NEVER push past the physical boundaries + padding
+    const minLeft = containerLeft + viewportPadding;
     const maxRight = containerRight - viewportPadding;
-    if (tooltipLeft + contentWidth > maxRight) {
-      shiftX = maxRight - (tooltipLeft + contentWidth);
-      if (tooltipLeft + shiftX < minLeft) {
-        shiftX = minLeft - tooltipLeft;
+
+    if (tooltipLeft < minLeft) {
+      // Overflowing left bounds: push it exactly against the padded left edge
+      shiftX += minLeft - tooltipLeft;
+    } else if (tooltipLeft + contentWidth > maxRight) {
+      // Overflowing right bounds: push it exactly against the padded right edge
+      shiftX -= (tooltipLeft + contentWidth) - maxRight;
+      
+      // Edge case for extremely narrow screens (smaller than the tooltip width):
+      if (wrapperCenterX - contentWidth / 2 + shiftX < minLeft) {
+        // Left-side has stronger priority to avoid cropping readable text beginnings
+        shiftX += minLeft - (wrapperCenterX - contentWidth / 2 + shiftX);
       }
     }
 
+    // Apply translation. The baseline is `left: 50%` so we negate half width, plus calculated margins
     span.style.transform = `translateX(calc(-50% + ${shiftX}px))`;
+    
+    // Seamlessly tie the arrow indicator `--tooltip-before-left` to visually align
+    // perfectly at the wrapper center by inversely shifting it from the `left: 50%` wrapper anchor.
     span.style.setProperty(
       "--tooltip-before-left",
       `calc(50% - ${shiftX}px)`
