@@ -10,6 +10,10 @@ export interface TipNixOptions {
     selector?: string;
     viewportSafeMargin?: number;
     renderAsHtml?: boolean;
+    customClass?: string;
+    zIndex?: string | number;
+    arrowInset?: number;
+    threshold?: number;
 }
 export declare function initTipNixTooltip(options?: TipNixOptions): void;
 export declare function getContrastColor(hexColor: string): string;

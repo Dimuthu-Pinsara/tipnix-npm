@@ -10,10 +10,12 @@
   border-radius: 8px;
   text-transform: uppercase;
   height: auto;
-  width: 100%;
+  width: max-content;
   display: grid;
   place-items: center;
-  padding: 4px 8px;
+  padding: 0px;
+  color: unset;
+  background-color: unset;
 }
 
 .tipnix-tooltip {
@@ -58,6 +60,12 @@
   pointer-events: auto;
   scale: 1;
   transition-delay: 0s;
+}
+
+.tipnix:hover {
+  background-color: unset;
+  color: unset;
+  box-shadow: unset;
 }
 
 .tooltip-above::before {

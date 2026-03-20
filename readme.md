@@ -182,6 +182,8 @@ initTipNixTooltip({
   padding: '10px',               // Inner padding
   animation: 'fade',             // Animation style
   parentWrapElement: '.parent',  // Parent element selector
+  arrowInset: 20,                // Arrow offset from edge when heavily shifted 
+  threshold: 0.9,                // Percentage threshold before tooltip sharply offsets
 });
 ```
 
@@ -201,6 +203,10 @@ Use these `tipnix-*` attributes on your HTML elements to customize individual to
 | `tipnix-padding` | Inner padding | `tipnix-padding="12px"` |
 | `tipnix-animation` | Animation style | `tipnix-animation="bounce"` |
 | `tipnix-parent` | Parent element selector | `tipnix-parent=".container"` |
+| `tipnix-class` | Custom utility class (Tailwind, etc) | `tipnix-class="shadow-xl rounded-full"` |
+| `tipnix-zindex` | Custom Z-Index rendering layer | `tipnix-zindex="99999"` |
+| `tipnix-arrow-inset` | Arrow offset from edge when shifted | `tipnix-arrow-inset="20"` |
+| `tipnix-threshold` | Sided space constraint threshold | `tipnix-threshold="0.9"` |
 
 ---
 
@@ -360,6 +366,50 @@ export default function TailwindTooltip() {
 
 ## 🔧 Advanced Usage
 
+### Fully Custom Complex React Content (NEW)
+Tipnix automatically detects the `data-tipnix-content` attribute across its child components. If it finds one, it will physically wrap and mount that entire HTML/React node tree directly inside the tooltip, finally breaking you free of simple string strings!
+
+This makes Tipnix fully compatible with highly customized React styling, images, and embedded layouts:
+
+```jsx
+'use client'
+
+import React from 'react'
+import { useEffect, useRef } from "react";
+import { initTipNixTooltip } from "tipnix";
+import "tipnix/tipnix.css";
+
+export default function CustomReactTooltip() {
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
+    initTipNixTooltip();
+  }, []);
+
+  return (
+    <div className="tipnix bg-white p-4" tipnix-class="shadow-2xl">
+      {/* The trigger element visible on the page */}
+      <button className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer">
+        Hover to see Custom React Layout
+      </button>
+      
+      {/* Nested React content hidden from the page but natively loaded into the Tooltip bubble */}
+      <div data-tipnix-content style={{ display: 'none' }}>
+        <div className="flex items-center gap-3 w-64 bg-slate-800 p-2 rounded-lg">
+          <img src="/avatar.png" className="w-8 h-8 rounded-full" alt="User" />
+          <div className="flex flex-col">
+            <h4 className="font-bold text-white mb-1">Complex Component</h4>
+            <p className="text-xs text-gray-200">You are not restricted to strings anymore. Customize styles extensively!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
 ### Dynamic Tooltip Content
 
 ```jsx
@@ -472,6 +522,8 @@ Initializes Tipnix Tooltip with the provided configuration.
   - `padding` (string) - CSS padding value
   - `animation` (string) - Animation style name
   - `parentWrapElement` (string) - CSS selector for parent element
+  - `arrowInset` (number) - Pixels from edge for arrow when shifted (default: 20)
+  - `threshold` (number) - Percentage space threshold before shifting tooltip side (default: 0.9)
 
 **Example:**
 ```javascript
